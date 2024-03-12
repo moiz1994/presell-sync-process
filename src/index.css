@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.full-height-container {
+  min-height: 100vh; /* This makes the container at least as tall as the viewport */  
+}
+
+.grad1 {
+  background-image: linear-gradient(to right, rgb(59, 118, 226) , rgb(8, 50, 83));
+}
+
+.grad2 {
+  background-image: linear-gradient(to right, rgb(75, 233, 110) , rgb(29, 116, 62));
+}
+
+.grad3 {
+  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+}
+
+.grad4 {
+  background-image: linear-gradient(to right, rgb(168, 76, 221), rgb(101, 39, 151));
+}
+
+.grad5 {
+  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+}
+
+.grad6 {
+  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+}
