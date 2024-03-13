@@ -13,7 +13,7 @@ code {
 }
 
 .full-height-container {
-  min-height: 100vh; /* This makes the container at least as tall as the viewport */  
+  min-height: 100vh !important; /* This makes the container at least as tall as the viewport */  
 }
 
 .grad1 {
@@ -33,9 +33,9 @@ code {
 }
 
 .grad5 {
-  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+  background-image: linear-gradient(to right, rgb(233, 89, 221) , rgb(153, 35, 143));
 }
 
 .grad6 {
-  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+  background-image: linear-gradient(to right, rgb(68, 87, 255) , rgb(156, 102, 207));
 }

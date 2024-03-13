@@ -1,7 +1,7 @@
 // SelectPreSeller.js
 import {useState} from "react";
 import ReactSelect from "react-select";
-import useFetch from "../useFetch";
+import useFetch from "../httpRequest/useFetch";
 import { ThreeCircles } from "react-loader-spinner";
 
 const SelectPreSeller = ({ onValueChange }) => {
