@@ -10,6 +10,7 @@ function App() {
   const [selectedMySQLDate, setSelectedMySQLDate] = useState(null);
   const [selectedMyOraDate, setSelectedMyOraDate] = useState(null);
   const [fetchTrigger, setFetchTrigger] = useState(false); // New state variable
+  const [postTrigger, setPostTrigger] = useState(false); // New state variable
   const [psrData, setPsrData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -66,6 +67,12 @@ function App() {
     }
   };
 
+  const handleSyncData = () => {
+    if (selectedValue && selectedMyOraDate) {
+      setFetchTrigger(!postTrigger);
+    }
+  };
+
   useEffect(() => {
     const fetchPSRData = async () => {
       setLoading(true);
@@ -85,6 +92,22 @@ function App() {
     }
   }, [fetchTrigger]);
 
+  useEffect(() => {
+    const postData = async () => {
+      setLoading(true);
+      const postDataResponse = await getPSRData(
+        selectedMyOraDate,
+        selectedValue
+      );
+
+      setLoading(false);
+      console.log(postDataResponse);
+    };
+    if (selectedValue && selectedMySQLDate) {
+      postData();
+    }
+  }, [postTrigger]);
+
   return (
     <div>
       {loading ? (
@@ -97,8 +120,7 @@ function App() {
               handleDateChange={handleDateChange}
               handleFetchData={handleFetchData}
               handleValueChange={handleValueChange}
-              selectedValue={selectedValue}
-              selectedDate={selectedMySQLDate}
+              handleSyncData={handleSyncData}
             />
 
             {/*       Output Container      */}

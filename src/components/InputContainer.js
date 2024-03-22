@@ -12,8 +12,7 @@ const InputContainer = ({
   handleValueChange,
   handleDateChange,
   handleFetchData,
-  selectValue,
-  selectedDate,
+  handleSyncData,
 }) => {
   return (
     <Card>
@@ -42,7 +41,11 @@ const InputContainer = ({
         >
           Fetch Data
         </Button>
-        <Button variant="success" className="float-start mx-1">
+        <Button
+          variant="success"
+          className="float-start mx-1"
+          onClick={handleSyncData}
+        >
           Sync Pending Records
         </Button>
       </CardFooter>
