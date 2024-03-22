@@ -1,41 +1,78 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 .full-height-container {
-  min-height: 100vh !important; /* This makes the container at least as tall as the viewport */  
+  min-height: 100vh !important; /* This makes the container at least as tall as the viewport */
 }
 
 .grad1 {
-  background-image: linear-gradient(to right, rgb(59, 118, 226) , rgb(8, 50, 83));
+  background-image: linear-gradient(
+    to right,
+    rgb(237, 28, 36),
+    rgb(158, 11, 15)
+  );
 }
 
 .grad2 {
-  background-image: linear-gradient(to right, rgb(75, 233, 110) , rgb(29, 116, 62));
+  background-image: linear-gradient(
+    to right,
+    rgb(0, 174, 239),
+    rgb(0, 125, 197)
+  );
 }
 
 .grad3 {
-  background-image: linear-gradient(to right, rgb(236, 59, 59) , rgb(221, 138, 138));
+  background-image: linear-gradient(to right, #d4145a, #ff4b2b);
 }
 
 .grad4 {
-  background-image: linear-gradient(to right, rgb(168, 76, 221), rgb(101, 39, 151));
+  background-image: linear-gradient(
+    to right,
+    rgb(101, 39, 151),
+    rgb(234, 128, 252)
+  );
 }
 
 .grad5 {
-  background-image: linear-gradient(to right, rgb(233, 89, 221) , rgb(153, 35, 143));
+  background-image: linear-gradient(to right, #ee534f, #4f4141);
 }
 
 .grad6 {
-  background-image: linear-gradient(to right, rgb(68, 87, 255) , rgb(156, 102, 207));
+  background-image: linear-gradient(to right, #ff7582, #725a7a);
+}
+.grad7 {
+  background-image: linear-gradient(to right, #b338d5, #7e1ab8);
+}
+.grad8 {
+  background-image: linear-gradient(to right, #124699, #554add);
+}
+.grad9 {
+  background-image: linear-gradient(to right, #8e2ebf, #4d4add);
+}
+
+.content-center {
+  background-color: rgba(33, 37, 41, 1);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.line {
+  width: 100% !important;
+  height: 1px !important;
+  background-color: rgb(145, 145, 145);
+  margin-bottom: 20px;
 }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import Container from 'react-bootstrap/Container';
+import Container from "react-bootstrap/Container";
 import InputContainer from "./components/InputContainer";
 import OutputContainer from "./components/OutputContainer";
-
+import Loader from "./components/Loader";
+import { getPSRData } from "./httpRequest/http";
 
 function App() {
   const [selectedValue, setSelectedValue] = useState(null);
@@ -10,6 +11,7 @@ function App() {
   const [selectedMyOraDate, setSelectedMyOraDate] = useState(null);
   const [fetchTrigger, setFetchTrigger] = useState(false); // New state variable
   const [psrData, setPsrData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const mstSync = psrData && psrData.length > 0 ? psrData[0] : null;
   const mstPending = psrData && psrData.length > 0 ? psrData[1] : null;
@@ -20,15 +22,24 @@ function App() {
   const ordCaseSync = psrData && psrData.length > 0 ? psrData[4] : null;
   const ordCasePending = psrData && psrData.length > 0 ? psrData[5] : null;
 
+  const mstSyncBk = psrData && psrData.length > 0 ? psrData[6] : null;
+  const dtlSyncBk = psrData && psrData.length > 0 ? psrData[7] : null;
+  const ordCaseSyncBk = psrData && psrData.length > 0 ? psrData[8] : null;
 
   // Safely access totalMstSync
-  const totalMstSync = mstSync ? mstSync.totalMstSync : '0';
-  const totalMstPending = mstPending ? mstPending.totalMstPending : '0';
-  const totalDtlSync = dtlSync ? dtlSync.totalDtlSync : '0';
-  const totalDtlPending = dtlPending ? dtlPending.totalDtlPending : '0';
-  const syncedOrderCase = ordCaseSync ? ordCaseSync.syncOrderCases : '0';
-  const pendingOrderCase = ordCasePending ? ordCasePending.pendingOrderCases : '0';
-  
+  const totalMstSync = mstSync ? mstSync.totalMstSync : "0";
+  const totalMstPending = mstPending ? mstPending.totalMstPending : "0";
+  const totalDtlSync = dtlSync ? dtlSync.totalDtlSync : "0";
+  const totalDtlPending = dtlPending ? dtlPending.totalDtlPending : "0";
+  const syncedOrderCase = ordCaseSync ? ordCaseSync.syncOrderCases : "0";
+  const pendingOrderCase = ordCasePending
+    ? ordCasePending.pendingOrderCases
+    : "0";
+  const totalMstBk = mstSyncBk ? mstSyncBk.totalMstSyncBk : "0";
+  const totalDtlBk = dtlSyncBk ? dtlSyncBk.totalDtlSyncBk : "0";
+  const syncedOrderCaseBk = ordCaseSyncBk
+    ? ordCaseSyncBk.syncOrderCasesBk
+    : "0";
 
   const handleValueChange = (value) => {
     setSelectedValue(value);
@@ -37,70 +48,74 @@ function App() {
 
   const handleDateChange = (event) => {
     const date = new Date(event.target.value);
-    const formattedDateShort = `${date.getDate()}-${date.toLocaleString('en-us', { month: 'short' })}-${date.getFullYear().toString().substr(-2)}`;
-    const formattedDateLong = `${date.getDate()}-${date.toLocaleString('en-us', { month: 'short' })}-${date.getFullYear()}`;
+    const formattedDateShort = `${date.getDate()}-${date.toLocaleString(
+      "en-us",
+      { month: "short" }
+    )}-${date.getFullYear().toString().substr(-2)}`;
+    const formattedDateLong = `${date.getDate()}-${date.toLocaleString(
+      "en-us",
+      { month: "short" }
+    )}-${date.getFullYear()}`;
     setSelectedMySQLDate(formattedDateShort);
-    setSelectedMyOraDate(formattedDateLong);    
+    setSelectedMyOraDate(formattedDateLong);
   };
 
   const handleFetchData = () => {
-    if(selectedValue && selectedMySQLDate){
+    if (selectedValue && selectedMySQLDate) {
       setFetchTrigger(!fetchTrigger);
-    }else{
-
     }
-  }
+  };
 
   useEffect(() => {
-    const fetchPSRData = async () => {      
-      const url = "http://mailserver.sukkurbeverages.net:689/react/presell-sync-process/API/get_mysql_data.php";
-      const data = {
-          "orderDate": selectedMySQLDate,
-          "username": selectedValue
-      };
-      const response = await fetch(url, {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-              "Content-Type": "application/json charset=utf-8",
-          },
-          body: JSON.stringify(data),
-      }).catch(error => {
-          console.log(error);
-      });
+    const fetchPSRData = async () => {
+      setLoading(true);
+      const psrDataResponse = await getPSRData(
+        selectedMySQLDate,
+        selectedValue
+      );
 
-      // Read the response body as text
-      const responseText = await response.text();
-      // If you need to use the response as JSON, parse it here
-      const responseJson = JSON.parse(responseText);
+      setLoading(false);
+      const responseJson = JSON.parse(psrDataResponse);
       console.log(responseJson);
 
-      // Return the parsed JSON or the text as needed
       setPsrData(responseJson);
-    }
-    if(selectedValue && selectedMySQLDate){
+    };
+    if (selectedValue && selectedMySQLDate) {
       fetchPSRData();
     }
-  }, [fetchTrigger])
+  }, [fetchTrigger]);
 
   return (
-    <div className="bg-dark full-height-container">
-      <Container className="pt-5">
-        {/*       Input Container      */}
-        <InputContainer 
-          handleDateChange={handleDateChange} 
-          handleFetchData={handleFetchData} 
-          handleValueChange={handleValueChange} />
+    <div>
+      {loading ? (
+        <Loader loading={loading} />
+      ) : (
+        <div className="bg-dark full-height-container">
+          <Container className="pt-5">
+            {/*       Input Container      */}
+            <InputContainer
+              handleDateChange={handleDateChange}
+              handleFetchData={handleFetchData}
+              handleValueChange={handleValueChange}
+              selectedValue={selectedValue}
+              selectedDate={selectedMySQLDate}
+            />
 
-        {/*       Output Container      */}     
-        <OutputContainer 
-          totalMstSync={totalMstSync}
-          totalMstPending={totalMstPending}
-          totalDtlSync={totalDtlSync}
-          totalDtlPending={totalDtlPending}
-          syncedOrderCase={syncedOrderCase}
-          pendingOrderCase={pendingOrderCase}
-        />        
-      </Container>
+            {/*       Output Container      */}
+            <OutputContainer
+              totalMstSync={totalMstSync}
+              totalMstPending={totalMstPending}
+              totalDtlSync={totalDtlSync}
+              totalDtlPending={totalDtlPending}
+              syncedOrderCase={syncedOrderCase}
+              pendingOrderCase={pendingOrderCase}
+              totalMstBk={totalMstBk}
+              totalDtlBk={totalDtlBk}
+              orderCaseBk={syncedOrderCaseBk}
+            />
+          </Container>
+        </div>
+      )}
     </div>
   );
 }
